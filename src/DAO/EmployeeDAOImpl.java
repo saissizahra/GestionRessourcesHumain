@@ -13,7 +13,8 @@ public class EmployeeDAOImpl implements EmployeeDAOI {
     @Override
     public void add(Employee employee) {
         String sql = "INSERT INTO Employe (nom, prenom, email, phone, salaire, role, poste) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        try (Connection conn = DBConnection.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (Connection conn = DBConnection.getConnection(); 
+        		PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, employee.getNom());
             stmt.setString(2, employee.getPrenom());
             stmt.setString(3, employee.getEmail());
@@ -120,9 +121,9 @@ public List<Employee> listAll() {
             stmt.setString(3, employee.getEmail());
             stmt.setString(4, employee.getPhone());
             stmt.setDouble(5, employee.getSalaire());
-            stmt.setString(6, employee.getRole().name()); // Envoi du rôle en tant que chaîne (avec la méthode .name())
-            stmt.setString(7, employee.getPoste().name()); // Idem pour le poste
-            stmt.setInt(8, id); // L'ID de l'employé à mettre à jour
+            stmt.setString(6, employee.getRole().name()); 
+            stmt.setString(7, employee.getPoste().name()); 
+            stmt.setInt(8, id); 
             
             int rowsUpdated = stmt.executeUpdate();
             

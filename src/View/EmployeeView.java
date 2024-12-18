@@ -15,7 +15,7 @@ public class EmployeeView extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
-        JPanel inputPanel = new JPanel(new GridLayout(0, 2, 10, 10)); // 0 lignes et 2 colonnes
+        JPanel inputPanel = new JPanel(new GridLayout(0, 2, 10, 10));
 
         inputPanel.add(new JLabel("Nom:"));
         nameField = new JTextField();
