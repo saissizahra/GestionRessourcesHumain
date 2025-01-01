@@ -1,9 +1,12 @@
 package Controller;
 
+import DAO.DBConnexion;
 import DAO.EmployeDAOImpl;
 import Model.*;
 import View.*;
 import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
@@ -92,13 +95,23 @@ public class HolidayController {
 
         try {
             // Ajouter la demande de congé
-            boolean addReussi = model_holiday.addHoliday(0, id_employe, startDate, endDate, type, targetEmploye);
+        	// Vérifier si le solde est suffisant avant l'ajout
+        	if (targetEmploye.getSolde() < daysBetween) {
+        	    View.afficherMessageErreur("Le solde de congé de l'employé est insuffisant.");
+        	    return;
+        	}
 
-            if (addReussi) {
-                // Réduire le solde de congé après l'ajout réussi
-                targetEmploye.setSolde(targetEmploye.getSolde() - (int) daysBetween);
-                View.afficherMessageSucces("Holiday est ajoutée.");
-            }
+        	// Ajouter la demande de congé
+        	boolean addReussi = model_holiday.addHoliday(0, id_employe, startDate, endDate, type, targetEmploye);
+
+        	if (addReussi) {
+        	    // Réduire le solde de congé après l'ajout réussi et mettre à jour la base de données
+        	    targetEmploye.setSolde(targetEmploye.getSolde() - (int) daysBetween);
+        	    // Mise à jour du solde dans la base de données après modification
+        	    updateSolde(targetEmploye.getId(), targetEmploye.getSolde());
+        	    View.afficherMessageSucces("Holiday est ajoutée.");
+        	}
+
         } catch (Exception e) {
             e.printStackTrace();
             View.afficherMessageErreur("Erreur lors de l'ajout : " + e.getMessage());
@@ -178,6 +191,19 @@ public class HolidayController {
         }
     }
 
+    public static void updateSolde(int id , int solde){
+        String sql = "UPDATE employe SET solde = ? WHERE id = ?";
+        try (PreparedStatement stmt = DBConnexion.getConnexion().prepareStatement(sql)) {
+            stmt.setInt(1, solde);
+            stmt.setInt(2, id);
+            int rowsUpdated = stmt.executeUpdate();
+            if (rowsUpdated > 0) {
+                System.out.println("Solde de congé mis à jour avec succès.");
+            }
+        } catch (SQLException exception) {
+            System.err.println("Erreur lors de la mise à jour du solde de l'employé : " + exception.getMessage());
+        }
+    }
 
     private void updateHoliday(){
         if (!test) {
@@ -202,15 +228,29 @@ public class HolidayController {
             }
 
             boolean updateSuccessful = model_holiday.updateHoliday(id, id_employe, startDate_holiday, endDate_holiday, type , targetEmploye , olddaysbetween);
-    
+
             if (updateSuccessful) {
+                // Calculer la différence entre la nouvelle et l'ancienne durée
+                long newDaysBetween = java.time.temporal.ChronoUnit.DAYS.between(
+                    startDate_holiday.toLocalDate(),
+                    endDate_holiday.toLocalDate()
+                );
+
+                // Ajuster le solde de congé
+                int soldeToUpdate = targetEmploye.getSolde() + (int) olddaysbetween - (int) newDaysBetween;
+                targetEmploye.setSolde(soldeToUpdate);
+
+                // Mettre à jour le solde dans la base de données
+                updateSolde(targetEmploye.getId(), targetEmploye.getSolde());
+
                 test = false; 
-                View.afficherMessageSucces("Holiday est modifie avec succes.");
+                View.afficherMessageSucces("Holiday est modifiée avec succès.");
                 displayHoliday();
                 View.viderChamps_ho();
             } else {
-                View.afficherMessageErreur("Erreur lors de la mise a jour de holiday.");
+                View.afficherMessageErreur("Erreur lors de la mise à jour de holiday.");
             }
+
         } catch (Exception e) {
             
             View.afficherMessageErreur("Erreur lors de la mise a jour");

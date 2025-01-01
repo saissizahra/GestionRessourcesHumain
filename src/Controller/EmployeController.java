@@ -1,15 +1,11 @@
-
 package Controller;
 
 import Model.*;
 import View.*;
-
 import java.util.Calendar;
 import java.util.List;
 
 import javax.swing.table.DefaultTableModel;
-
-
 
 public class EmployeController {
 
@@ -32,6 +28,7 @@ public class EmployeController {
         this.View = view;
         this.model_employe = model;
 
+        // Ajout des listeners pour les boutons
         View.getaddButton_employe().addActionListener(e -> addEmploye());
         View.getdeleteButton_employe().addActionListener(e -> deleteEmploye());
         View.getupdateButton_employe().addActionListener(e -> updateEmploye());
@@ -39,12 +36,11 @@ public class EmployeController {
         MainView.Tableau.getSelectionModel().addListSelectionListener(e -> updateEmployebyselect());
     }
 
-
-
+    // Affichage des employés
     public void displayEmploye() {
         List<Employe> Employes = model_employe.displayEmploye();
         if(Employes.isEmpty()){
-            View.afficherMessageErreur("Aucun employe.");
+            View.afficherMessageErreur("Aucun employé.");
         }
         DefaultTableModel tableModel = (DefaultTableModel) MainView.Tableau.getModel();
         tableModel.setRowCount(0);
@@ -54,9 +50,7 @@ public class EmployeController {
         View.remplaire_les_employes();
     }
 
-    
-    // function of add Employe :
-
+    // Fonction pour ajouter un employé
     private void addEmploye() {
         String nom = View.getNom();
         String prenom = View.getPrenom();
@@ -70,41 +64,39 @@ public class EmployeController {
         boolean addreussi = model_employe.addEmploye(0,nom, prenom, email, telephone, salaire, role, poste ,25);
 
         if(addreussi == true){
-            View.afficherMessageSucces("L'employe a bien ete ajoutee.");
+            View.afficherMessageSucces("L'employé a bien été ajouté.");
             displayEmploye();
         }else{
-            View.afficherMessageErreur("L'employe n'a pas ete ajoutee.");
+            View.afficherMessageErreur("L'employé n'a pas été ajouté.");
         }
     }
 
-
-
-    // function of delete Employe : 
-
+    // Fonction pour supprimer un employé
     private void deleteEmploye(){
         int selectedrow = MainView.Tableau.getSelectedRow();
         if(selectedrow == -1){
-            View.afficherMessageErreur("Veuillez selectionner une ligne.");
+            View.afficherMessageErreur("Veuillez sélectionner une ligne.");
         }else{
             int id = (int) MainView.Tableau.getValueAt(selectedrow, 0);
             if(model_employe.deleteEmploye(id)){
-                View.afficherMessageSucces("L'employe a bien ete supprimer.");
+                View.afficherMessageSucces("L'employé a bien été supprimé.");
                 displayEmploye();
             }else{
-                View.afficherMessageErreur("L'employe n'a pas ete supprimer.");
+                View.afficherMessageErreur("L'employé n'a pas été supprimé.");
             }
         }
     }
 
-    // function of Update :
-
-    private void updateEmployebyselect(){
+    // Fonction pour mettre à jour les champs en fonction de la sélection
+    private void updateEmployebyselect() {
         int selectedrow = MainView.Tableau.getSelectedRow();
 
         if (selectedrow == -1) {
+            View.afficherMessageErreur("Aucune ligne sélectionnée.");
             return;
         }
-        try{
+
+        try {
             id = (int) MainView.Tableau.getValueAt(selectedrow, 0);
             nom = (String) MainView.Tableau.getValueAt(selectedrow, 1);
             prenom = (String) MainView.Tableau.getValueAt(selectedrow, 2);
@@ -114,16 +106,25 @@ public class EmployeController {
             role = (Role) MainView.Tableau.getValueAt(selectedrow, 6);
             poste = (Poste) MainView.Tableau.getValueAt(selectedrow, 7);
             solde = (int) MainView.Tableau.getValueAt(selectedrow, 8);
+
+            // Vérification des valeurs avant de remplir les champs
+            if (id == 0 || nom == null || prenom == null || email == null || telephone == null || salaire == 0) {
+                View.afficherMessageErreur("Certaines données sont manquantes ou incorrectes.");
+                return;
+            }
+
             View.remplaireChamps_em(id, nom, prenom, email, telephone, salaire, role, poste);
             test = true;
-        }catch(Exception e){
-             View.afficherMessageErreur("Erreur lors de la r�cup�ration des donn�es");
+        } catch (Exception e) {
+            e.printStackTrace();
+            View.afficherMessageErreur("Erreur lors de la récupération des données : " + e.getMessage());
         }
     }
 
+    // Fonction pour mettre à jour un employé
     private void updateEmploye(){
         if (!test) {
-            View.afficherMessageErreur("Veuillez d'abord s�lectionner une ligne � modifier.");
+            View.afficherMessageErreur("Veuillez d'abord sélectionner une ligne à modifier.");
             return;
         }
         try {
@@ -139,18 +140,18 @@ public class EmployeController {
     
             if (updateSuccessful) {
                 test = false; 
-                View.afficherMessageSucces("L'employ� a �t� modifi� avec succ�s.");
+                View.afficherMessageSucces("L'employé a été modifié avec succès.");
                 displayEmploye();
                 View.viderChamps_em();
             } else {
-                View.afficherMessageErreur("Erreur lors de la mise � jour de l'employ�.");
+                View.afficherMessageErreur("Erreur lors de la mise à jour de l'employé.");
             }
         } catch (Exception e) {
-            
-            View.afficherMessageErreur("Erreur lors de la mise � jour");
+            View.afficherMessageErreur("Erreur lors de la mise à jour");
         }
     }
 
+    // Réinitialisation du solde des employés
     public void resetSolde(){
         Calendar now = Calendar.getInstance();
         if(now.get(Calendar.DAY_OF_YEAR) == 1){
@@ -160,8 +161,7 @@ public class EmployeController {
         }
     }
 
-    public static void updateSolde(int  id , int solde){
+    public static void updateSolde(int id , int solde){
         boolean updateSuccessful = model_employe.updateSolde(id, solde);
     }
-
 }

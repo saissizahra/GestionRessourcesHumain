@@ -1,17 +1,19 @@
 package Model;
 
-public class Employe{
-    private int id;
+public class Employe {
+    // Déclaration des attributs de la classe Employe
+    private int id; 
     private String nom;
-    private String prenom;
+    private String prenom; 
     private String email;
     private String telephone; 
     private double salaire;
-    private Role role;
-    private Poste poste ;
-    private int solde ;
+    private Role role; 
+    private Poste poste; 
+    private int solde; 
 
-    public Employe(int id ,String nom, String prenom, String email, String telephone, double salaire, Role role, Poste poste ,int solde){
+    // Constructeur de la classe Employe
+    public Employe(int id, String nom, String prenom, String email, String telephone, double salaire, Role role, Poste poste, int solde) {
         this.id = id;
         this.nom = nom;
         this.prenom = prenom;
@@ -23,75 +25,93 @@ public class Employe{
         this.solde = solde;
     }
 
-
-    public int getId(){
+    // Méthode pour récupérer l'identifiant de l'employé
+    public int getId() {
         return id;
     }
 
-    public void setId(int id){
+    // Méthode pour définir l'identifiant de l'employé
+    public void setId(int id) {
         this.id = id;
     }
+
+    // Méthode pour récupérer le nom de l'employé
     public String getNom() {
         return nom;
     }
 
+    // Méthode pour définir le nom de l'employé
     public void setNom(String nom) {
-        this.nom = nom; 
+        this.nom = nom;
     }
 
-    public String getPrenom() {  
+    // Méthode pour récupérer le prénom de l'employé
+    public String getPrenom() {
         return prenom;
     }
 
-    public void setPrenom(String prenom) {  
+    // Méthode pour définir le prénom de l'employé
+    public void setPrenom(String prenom) {
         this.prenom = prenom;
     }
 
-    public String getEmail() {  
+    // Méthode pour récupérer l'email de l'employé
+    public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {  
+    // Méthode pour définir l'email de l'employé
+    public void setEmail(String email) {
         this.email = email;
     }
 
-    public String getTelephone() {  
+    // Méthode pour récupérer le numéro de téléphone de l'employé
+    public String getTelephone() {
         return telephone;
     }
 
-    public void setTelephone(String telephone) {  
+    // Méthode pour définir le numéro de téléphone de l'employé
+    public void setTelephone(String telephone) {
         this.telephone = telephone;
     }
 
+    // Méthode pour récupérer le salaire de l'employé
     public double getSalaire() {
         return salaire;
     }
 
+    // Méthode pour définir le salaire de l'employé
     public void setSalaire(double salaire) {
         this.salaire = salaire;
     }
 
-    public Role getRole() {  
+    // Méthode pour récupérer le rôle de l'employé
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(Role role) {  
+    // Méthode pour définir le rôle de l'employé
+    public void setRole(Role role) {
         this.role = role;
     }
 
-    public Poste getPoste() {  
+    // Méthode pour récupérer le poste de l'employé
+    public Poste getPoste() {
         return poste;
     }
 
-    public void setPost(Poste poste) {  
-        this.poste = poste;    
+    // Méthode pour définir le poste de l'employé
+    public void setPost(Poste poste) {
+        this.poste = poste;
     }
 
-    public void setSolde (int conge){
+    // Méthode pour définir le solde de congés de l'employé
+    public void setSolde(int conge) {
         this.solde = conge;
     }
 
-    public int getSolde(){
+    // Méthode pour récupérer le solde de congés de l'employé
+    public int getSolde() {
         return solde;
     }
 }

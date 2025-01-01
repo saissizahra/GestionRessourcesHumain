@@ -16,7 +16,7 @@ public class HolidayDAOImpl implements GenericDAOI<Holiday>{
         String insertHolidaySql = "INSERT INTO holiday (id_employe, startdate, enddate, type) VALUES (?, ?, ?, ?)";
 
         try (PreparedStatement checkStmt = DBConnexion.getConnexion().prepareStatement(checkSoldeSql)) {
-            // R�cup�rer le solde de cong� de l'employ�
+            // R�cup�rer le solde de conge de l'employ�
             checkStmt.setInt(1, e.getId_employe());
             ResultSet rs = checkStmt.executeQuery();
 
@@ -30,7 +30,7 @@ public class HolidayDAOImpl implements GenericDAOI<Holiday>{
                 );
 
                 if (daysBetween > solde) {
-                    System.err.println("Le solde de cong� est insuffisant.");
+                    System.err.println("Le solde de conge est insuffisant.");
                     return;
                 }
 
@@ -43,7 +43,7 @@ public class HolidayDAOImpl implements GenericDAOI<Holiday>{
 
                     insertStmt.executeUpdate();
 
-                    // Mettre � jour le solde de cong�
+                    // Mettre a jour le solde de conge
                     String updateSoldeSql = "UPDATE employe SET solde= solde - ? WHERE id = ?";
                     try (PreparedStatement updateStmt = DBConnexion.getConnexion().prepareStatement(updateSoldeSql)) {
                         updateStmt.setInt(1, (int) daysBetween);
@@ -52,7 +52,7 @@ public class HolidayDAOImpl implements GenericDAOI<Holiday>{
                     }
                 }
             } else {
-                System.err.println("Employ� introuvable.");
+                System.err.println("Employe introuvable.");
             }
         } catch (SQLException exception) {
             exception.printStackTrace();
@@ -67,7 +67,7 @@ public class HolidayDAOImpl implements GenericDAOI<Holiday>{
             stmt.setInt(1,id);
             stmt.executeUpdate();
         } catch (SQLException exception) {
-            System.err.println("failed of delete holiday");
+            System.err.println("Failed of delete holiday");
         }
     }
 
@@ -82,7 +82,7 @@ public class HolidayDAOImpl implements GenericDAOI<Holiday>{
             stmt.setInt(5,e.getId_holiday());
             stmt.executeUpdate();
         } catch (SQLException exception) {
-            System.err.println("failed of update holiday");
+            System.err.println("Failed of update holiday");
         }
     }
 

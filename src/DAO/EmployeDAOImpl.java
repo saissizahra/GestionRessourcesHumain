@@ -1,8 +1,15 @@
-
 package DAO;
+
 import Model.Employe;
 import Model.Poste;
 import Model.Role;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -97,5 +104,51 @@ public class EmployeDAOImpl implements GenericDAOI<Employe> {
             System.err.println("failed of update solde employe");
         }
     }
+    public void importData(String filePath) {
+        String query = "INSERT INTO Employe(nom, prenom, email, telephone, salaire, role, poste) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        Connection conn = null;
+		try (BufferedReader reader = new BufferedReader(new FileReader(filePath));
+             PreparedStatement ps = conn.prepareStatement(query)) {
 
+            String line = reader.readLine(); 
+            while ((line = reader.readLine()) != null) {
+                String[] data = line.split(",");
+                if (data.length == 7) {
+                    ps.setString(1, data[0].trim()); // nom
+                    ps.setString(2, data[1].trim()); // prenom
+                    ps.setString(3, data[2].trim()); // email
+                    ps.setString(4, data[3].trim()); // telephone
+                    ps.setString(5, data[4].trim()); // salaire
+                    ps.setString(6, data[5].trim()); // role
+                    ps.setString(7, data[6].trim()); // poste
+                    ps.addBatch();
+                } else {
+                    System.err.println("Invalid data format:" + line);
+                }
+            }
+            ps.executeBatch();
+            System.out.println("Les employés ont été importés avec succès !");
+        } catch (IOException | SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public void exportData(String fileName, List<Employe> data) throws IOException {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
+            writer.write("nom,prenom,email,telephone,role,poste,salaire");
+            writer.newLine();
+            for (Employe employee : data) {
+                String line = String.format("%s,%s,%s,%s,%s,%s,%.2f",
+                        employee.getNom(),
+                        employee.getPrenom(),
+                        employee.getEmail(),
+                        employee.getTelephone(),
+                        employee.getRole(),
+                        employee.getPoste(),
+                        employee.getSalaire());
+                writer.write(line);
+                writer.newLine();
+            }
+            System.out.println("Les employés ont été exportés avec succès !");
+        }
+    }
 }
