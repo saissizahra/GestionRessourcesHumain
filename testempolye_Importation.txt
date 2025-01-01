@@ -1,0 +1,5 @@
+ID,Nom,Prenom,Email,Telephone,Salaire,Role,Poste,solde
+1,ZAHNI,Jihad,jihad@gmail.com,06123456789,1000.0,ADMIN,PILOTE,20
+4,KOUIS,khaoula,khaoula@gmail.com,06234567890,1500.0,EMPLOYE,TEAM_LEADER,22
+5,ROUKI,Rita,rita@gmail.com,06345678901,1200.0,EMPLOYE,INGENIEURE_ETUDE_ET_DEVELOPPEMENT,12
+7,Aya,Aya,aya@gmail.com,06456789012,1300.0,ADMIN,PILOTE,23

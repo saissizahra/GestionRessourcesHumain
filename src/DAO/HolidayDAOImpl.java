@@ -104,7 +104,7 @@ public class HolidayDAOImpl implements GenericDAOI<Holiday>{
         } catch (SQLException ex) {
             System.err.println("Failed to fetch holidays: " + ex.getMessage());
         }
-        return Holidays; // Retourne une liste vide si une erreur se produit
+        return Holidays; 
     }
 
 }

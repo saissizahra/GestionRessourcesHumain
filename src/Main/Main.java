@@ -14,6 +14,7 @@ import View.LoginView;
 
 public class Main {
 	public static void main(String[] args) {
+		
 	    // Crée des instances des DAO pour la gestion des données
 	    LoginDAOImpl loginDAO = new LoginDAOImpl();
 	    EmployeDAOImpl employeDAO = new EmployeDAOImpl();
@@ -35,9 +36,9 @@ public class Main {
 
 	    // Écoute les événements de connexion et affiche la vue principale si la connexion est réussie
 	    loginView.addLoginListener(e -> {
-	        // Vérifie si l'authentification est réussie
+	        
+	    	// Si l'authentification est réussie
 	        if (loginModel.authenticate(loginView.getUsername(), loginView.getPassword())) {
-	            // Si la connexion est réussie, cache la vue de connexion
 	            loginView.setVisible(false); 
 
 	            // Initialise les contrôleurs pour la gestion des employés et des congés
@@ -47,12 +48,10 @@ public class Main {
 	            // Affiche la vue principale de l'application
 	            employeHolidayView.setVisible(true);
 	        } else {
-	            // Si la connexion échoue, affiche un message d'erreur
 	            loginView.showError("Nom d'utilisateur et mot de passe incorrects. Essayez à nouveau.");
 	        }
 	    });
 	}
-
 }
 
 

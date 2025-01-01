@@ -104,6 +104,9 @@ public class EmployeDAOImpl implements GenericDAOI<Employe> {
             System.err.println("failed of update solde employe");
         }
     }
+    
+     //Importation des données des employés depuis un fichier texte vers la base de données.
+     
     public void importData(String filePath) {
         String query = "INSERT INTO Employe(nom, prenom, email, telephone, salaire, role, poste) VALUES (?, ?, ?, ?, ?, ?, ?)";
         Connection conn = null;
@@ -132,6 +135,8 @@ public class EmployeDAOImpl implements GenericDAOI<Employe> {
             e.printStackTrace();
         }
     }
+    
+    //Exporter des données des employés dans un fichier texte
     public void exportData(String fileName, List<Employe> data) throws IOException {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
             writer.write("nom,prenom,email,telephone,role,poste,salaire");

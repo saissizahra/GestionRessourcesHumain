@@ -32,7 +32,7 @@ public class MainView extends JFrame {
     private JPanel panButton_employe = new JPanel();
     private JPanel panButton_holiday = new JPanel();
 
-    // les labels du l'employe
+ // Les labels pour les informations des employés
     private JLabel label_nom = new JLabel("Nom");
     private JLabel label_prenom = new JLabel("Prenom");
     private JLabel label_email = new JLabel("Email");
@@ -41,14 +41,14 @@ public class MainView extends JFrame {
     private JLabel label_role = new JLabel("Role");
     private JLabel label_poste = new JLabel("Poste");
 
-    // les labels du cong�
+ // Les labels pour les informations de congé
     private JLabel label_employe = new JLabel("Nom de l'employe");
     private JLabel label_startDate = new JLabel("Date de debut (YYYY-MM-DD)");
     private JLabel label_endDate = new JLabel("Date de fin (YYYY-MM-DD)");
     private JLabel label_type = new JLabel("Type");
     private JComboBox<HolidayType> TypeComboBox = new JComboBox<>(HolidayType.values());
 
-    // les textfield du l'employe
+    // Les champs de texte pour saisir les informations des employés
     private JTextField text_nom = new JTextField();
     private JTextField text_prenom = new JTextField();
     private JTextField text_email = new JTextField();
@@ -58,12 +58,12 @@ public class MainView extends JFrame {
     private JComboBox<Role> roleComboBox = new JComboBox<>(Role.values());
     private JComboBox<Poste> posteComboBox = new JComboBox<>(Poste.values());
 
-    // les textfield du cong�
+    // Les champs de texte pour saisir les informations de congé
     private JComboBox<String> text_employe = new JComboBox<>();
     private JTextField text_startDate = new JTextField("");
     private JTextField text_endDate = new JTextField("");
 
-    // les boutons du l'employe
+    // Les boutons pour gérer les employés
     private JButton addButton_employe = new JButton("Ajouter");
     private JButton updateButton_employe = new JButton("Modifier");
     private JButton deleteButton_employe = new JButton("Supprimer");
@@ -71,7 +71,7 @@ public class MainView extends JFrame {
     public JButton importButton_employe = new JButton("Importer");
     public JButton exportButton_employe = new JButton("Exporter");
 
-    // les boutons du cong�
+    // Les boutons pour gérer les congés
     private JButton addButton_holiday = new JButton("Ajouter");
     private JButton updateButton_holiday = new JButton("Modifier");
     private JButton deleteButton_holiday = new JButton("Supprimer");
@@ -80,14 +80,13 @@ public class MainView extends JFrame {
     public JButton exportButton_holiday = new JButton("Exporter");
 
 
-
-    // le tableau de l'employe
+    // Le tableau pour afficher les employés
     JPanel pan0 = new JPanel(new BorderLayout());
     public static String[] columnNames_employe = {"ID", "Nom", "Prenom", "Email", "Telephone", "Salaire", "Role", "Poste","solde"};
     public static DefaultTableModel tableModel = new DefaultTableModel(columnNames_employe, 0);
     public static JTable Tableau = new JTable(tableModel);
 
-    // le tableau du cong�
+ // Le tableau pour afficher les congés
     JPanel pan1 = new JPanel(new BorderLayout());
     public static String[] columnNames_holiday = {"ID", "nom_employe","date_debut","date_fin","type"};
     public static DefaultTableModel tableModel1 = new DefaultTableModel(columnNames_holiday, 0);
@@ -102,7 +101,7 @@ public class MainView extends JFrame {
 
         add(tabbedPane);
 
-    // Employe Tab
+     // Configuration de l'onglet Employe
         employeTab.setLayout(new BorderLayout());
         employeTab.add(Employepan, BorderLayout.CENTER);
         
@@ -122,7 +121,7 @@ public class MainView extends JFrame {
         panButton_employe.add(importButton_employe);
         panButton_employe.add(exportButton_employe);
 
-
+        // Ajout du formulaire des employés
         Employepan.add(Forme_employe, BorderLayout.NORTH);
         Forme_employe.setLayout(new GridLayout(7, 2, 10, 10));
         Forme_employe.add(label_nom);
@@ -140,7 +139,7 @@ public class MainView extends JFrame {
         Forme_employe.add(label_poste);
         Forme_employe.add(posteComboBox);
 
-    // Holiday Tab 
+        // Configuration de l'onglet Holiday
         holidayTab.setLayout(new BorderLayout());
         holidayTab.add(Holidaypan, BorderLayout.CENTER);
         Holidaypan.setLayout(new BorderLayout());
@@ -150,7 +149,8 @@ public class MainView extends JFrame {
         Tableau1.setPreferredScrollableViewportSize(preferredSize);
         pan1.add(new JScrollPane(Tableau1), BorderLayout.CENTER);
         Display_Table_holiday.add(pan1);
-
+        
+        // Ajout du formulaire des congés
         Holidaypan.add(Forme_holiday, BorderLayout.NORTH);
         Forme_holiday.setLayout(new GridLayout(4, 2, 10, 10));
         Forme_holiday.add(label_employe);
@@ -162,6 +162,7 @@ public class MainView extends JFrame {
         Forme_holiday.add(label_type);
         Forme_holiday.add(TypeComboBox);
 
+        
         Holidaypan.add(panButton_holiday, BorderLayout.SOUTH);
         panButton_holiday.add(addButton_holiday);
         panButton_holiday.add(updateButton_holiday);
@@ -170,12 +171,11 @@ public class MainView extends JFrame {
         panButton_holiday.add(importButton_holiday);
         panButton_holiday.add(exportButton_holiday);
 
-
-        
-
-    // TabbedPane
+        // Ajout des onglets au tabbedPane
         tabbedPane.addTab("Employe", employeTab);
         tabbedPane.addTab("Holiday", holidayTab);
+        
+        // Action pour importer des données des employés
         importButton_employe.addActionListener(e -> {
             JFileChooser fileChooser = new JFileChooser();
             if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
@@ -183,19 +183,22 @@ public class MainView extends JFrame {
             }
         });
 
+        // Action pour exporter les données des employés
         exportButton_employe.addActionListener(e -> {
             JFileChooser fileChooser = new JFileChooser();
             if (fileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
                 exportData(tableModel, fileChooser.getSelectedFile().getPath());
             }
         });
+        
+        // Action pour importer des données des congés
         importButton_holiday.addActionListener(e -> {
             JFileChooser fileChooser = new JFileChooser();
             if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
                 importData(tableModel1, fileChooser.getSelectedFile().getPath());
             }
         });
-
+        // Action pour exporter les données des congés
         exportButton_holiday.addActionListener(e -> {
             JFileChooser fileChooser = new JFileChooser();
             if (fileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
@@ -217,7 +220,7 @@ public class MainView extends JFrame {
 
 
 
-    // getters
+    // getters et setters
 
 
         public int getId_employe() {
@@ -359,7 +362,7 @@ public class MainView extends JFrame {
 
   
        
-
+    //exporter les données contenues dans un DefaultTableModel vers un fichier
     public void exportData(DefaultTableModel model, String fileName) {
         try (PrintWriter writer = new PrintWriter(new FileWriter(fileName))) {
             for (int i = 0; i < model.getColumnCount(); i++) {
@@ -380,6 +383,7 @@ public class MainView extends JFrame {
         }
     }
 
+    //importer des données à partir d'un fichier et de les ajouter à un DefaultTableModel.
     public void importData(DefaultTableModel model, String fileName) {
         try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
             model.setRowCount(0);

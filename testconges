@@ -1,0 +1,6 @@
+ID,nom_employe,date_debut,date_fin,type
+1,1 - SAISSI Zahra,2025-01-05,2025-01-10,CONGE_PAYE
+2,3 - ouhidous inas,2025-01-12,2025-01-15,CONGE_NON_PAYE
+3,2 - KOUIS khaoula,2025-03-22,2025-03-25,CONGE_NON_PAYE
+4,3 - ouhidous inas,2025-05-18,2025-05-28,CONGE_MALADIE
+5,4 - elouati nissrin,2025-01-02,2025-01-04,CONGE_MALADIE

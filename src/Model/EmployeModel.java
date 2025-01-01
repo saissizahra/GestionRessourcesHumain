@@ -65,25 +65,28 @@ public boolean addEmploye(int id ,String nom, String prenom, String email, Strin
         return Employes;
     }
     
+ // Vérifie que le fichier existe dans le système.
     private boolean checkFileExits(File file) {	
-		if(!file.exists()) {
-			throw new IllegalArgumentException ("le fichier n'existe pas "+file.getPath());			
-		}
-		return true;
-	}
-    
+    	if (!file.exists()) {
+    		throw new IllegalArgumentException("Le fichier n'existe pas " + file.getPath());
+    	}			
+    	return true;
+    }
+
+    // Vérifie que le chemin spécifié est bien un fichier et non un répertoire.
     private boolean checkIsFile(File file) {
-		if(!file.isFile()) {
-			throw new IllegalArgumentException ("le chemin specifie nest pas un fichier "+file.getPath());
-		}
-		return true;
+    	if (!file.isFile()) {
+    		throw new IllegalArgumentException("Le chemin spécifié n'est pas un fichier " + file.getPath());
+    	}
+    	return true;
     }
-   
+
+    // Vérifie que l'application a les droits de lecture sur le fichier.
     private boolean checkIsReadebal(File file) {
-	
-		if(!file.canRead()) {
-			throw new IllegalArgumentException ("le chemin specifie nest pas lisibles "+file.getPath());	
-		}
-		return true;	
+    	if (!file.canRead()) {
+    		throw new IllegalArgumentException("Le fichier spécifié n'est pas lisible " + file.getPath());	
+    	}
+    	return true;	
     }
+
 }

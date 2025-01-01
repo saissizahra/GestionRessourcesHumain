@@ -163,4 +163,5 @@ public class EmployeController {
     public static void updateSolde(int id , int solde){
         boolean updateSuccessful = model_employe.updateSolde(id, solde);
     }
+    
 }
